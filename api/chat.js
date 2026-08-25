@@ -1,0 +1,85 @@
+// /api/chat.js — Vercel serverless function.
+// Keeps GROQ_API_KEY server-side. Never call Groq directly from the browser.
+
+// NOTE: Groq's model catalog changes. This was set to the Llama models requested,
+// but some recent Groq docs show llama-3.3-70b-versatile / llama-3.1-8b-instant as
+// deprecated in favor of openai/gpt-oss-20b / openai/gpt-oss-120b. Check
+// https://console.groq.com/docs/models before deploying — if Llama is retired,
+// change this one line.
+const MODEL = 'llama-3.3-70b-versatile';
+
+const SYSTEM_PROMPT = `Tum OwnIt ke AI shopping assistant ho — ek Pakistani custom PS5 skins store ka helper. Hamesha Roman Urdu/Hinglish mein baat karo (jaise dost se baat karte hain, casual tone) — kabhi bhi Urdu script (اردو) mein mat likhna, sirf Roman/Latin letters use karna.
+
+STORE INFO (yehi facts use karna, kuch bhi mat banana):
+- Products: Ragnarok (weathered warrior/rune design), Weapon X (claw-slash/wire-mesh design, controller aur headset bhi available), Hokage (ninja ink-sketch design), Webslinger (spider emblem design), Sticker Bomb (colorful graffiti collage design)
+- Pricing: Console Only Rs. 1,500 · Console + Controller Rs. 1,800 (Sticker Bomb thora kam, Rs. 1,700 bundle)
+- Sab PS5 Disc, PS5 Digital aur PS5 Slim ke liye available hain — customer ko apna model batana hota hai order karte waqt
+- Shipping: standard free (2-6 din), express Rs. 500 (1-2 din)
+- Returns: premade skins pe 30-din return, custom/apna-design wale orders final sale hain (sirf damaged/misprint pe replace hota hai)
+- Apna khud ka design bhi upload kar sakte hain "Create Your Own" page se
+- Yeh site abhi ek portfolio/demo project hai — checkout se koi real payment process nahi hota
+
+RULES:
+- Replies short rakho — 2 se 4 lines, mobile pe padhne layak
+- Jab koi product recommend karo to naam aur price zaroor batao
+- Agar kisi cheez ka pata na ho to honestly bol do, kabhi mat banao ya guess mat karo
+- Kabhi fake discount, fake stock-urgency, ya jhooti guarantee mat do
+- Jahan relevant ho wahan customer ko batao kaunsa button/page dekhna hai (jaise "Collection mein dekho" ya "Create Your Own try karo")
+- Agar koi unrelated / harmful sawal poochay to politely mana kardo aur topic ko PS5 skins pe wapas le aao`;
+
+module.exports = async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
+
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) {
+    res.status(500).json({ error: 'Assistant is not configured yet.' });
+    return;
+  }
+
+  const { messages } = req.body || {};
+  if (!Array.isArray(messages) || messages.length === 0) {
+    res.status(400).json({ error: 'messages array is required' });
+    return;
+  }
+
+  // Keep only the last few turns to control token usage / latency.
+  const trimmed = messages.slice(-12).filter(
+    (m) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string'
+  );
+
+  try {
+    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...trimmed],
+        temperature: 0.7,
+        max_tokens: 400,
+      }),
+    });
+
+    if (!groqRes.ok) {
+      const errText = await groqRes.text();
+      console.error('Groq API error', groqRes.status, errText);
+      res.status(502).json({ error: 'Assistant is temporarily unavailable. Try again in a bit.' });
+      return;
+    }
+
+    const data = await groqRes.json();
+    const reply = data.choices && data.choices[0] && data.choices[0].message
+      ? data.choices[0].message.content
+      : 'Maaf kijiye, jawab generate nahi ho saka. Dobara try karein.';
+
+    res.status(200).json({ reply });
+  } catch (err) {
+    console.error('Assistant handler error', err);
+    res.status(500).json({ error: 'Something went wrong on our end.' });
+  }
+};
