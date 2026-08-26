@@ -15,14 +15,18 @@
     box-shadow:0 10px 24px rgba(0,0,0,.25);
     font-family:var(--display);font-size:22px;
     border:1.5px solid var(--ink);cursor:pointer;
-    transition:transform .2s ease, background .2s ease;
+    transition:transform .2s ease, background .2s ease, bottom .25s ease;
   }
   .oa-launcher:hover{background:var(--blood);border-color:var(--blood);transform:translateY(-2px);}
   .oa-launcher .oa-dot{
     position:absolute;top:-4px;right:-4px;width:12px;height:12px;border-radius:50%;
     background:var(--blood);border:2px solid var(--paper);
   }
-  @media(max-width:640px){.oa-launcher{bottom:18px;right:18px;width:50px;height:50px;}}
+  .oa-launcher.oa-lifted{bottom:96px;}
+  @media(max-width:640px){
+    .oa-launcher{bottom:18px;right:18px;width:50px;height:50px;}
+    .oa-launcher.oa-lifted{bottom:88px;}
+  }
 
   .oa-overlay{position:fixed;inset:0;background:rgba(21,21,18,.35);z-index:190;opacity:0;pointer-events:none;transition:opacity .2s ease;}
   .oa-overlay.open{opacity:1;pointer-events:auto;}
@@ -225,5 +229,21 @@
   document.addEventListener('DOMContentLoaded', () => {
     injectStyles();
     injectDOM();
+    watchStickyBar();
   });
+
+  // On PDP pages, a sticky Add-to-Cart bar slides up from the bottom once you
+  // scroll past the main button — lift the chat launcher above it so they
+  // never overlap.
+  function watchStickyBar() {
+    const stickyBar = document.getElementById('stickyBar');
+    const launcher = document.getElementById('oaLauncher');
+    if (!stickyBar || !launcher) return;
+
+    function sync() {
+      launcher.classList.toggle('oa-lifted', stickyBar.classList.contains('show'));
+    }
+    sync();
+    new MutationObserver(sync).observe(stickyBar, { attributes: true, attributeFilter: ['class'] });
+  }
 })();

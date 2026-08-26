@@ -170,7 +170,58 @@
         });
       });
     });
+
+    initPriceReveal();
   });
+
+  // Press-and-hold PKR -> USD reveal for coverage/price cards.
+  // Default state shows PKR; holding a finger (or mouse button) down
+  // swaps to the USD equivalent, releasing swaps it back.
+  function injectPriceRevealStyles() {
+    if (document.getElementById('oa-price-reveal-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'oa-price-reveal-styles';
+    style.textContent =
+      '.price-reveal-fx{font-size:9px;color:var(--graphite);margin-left:4px;letter-spacing:.02em;}' +
+      '.price-reveal-active{color:var(--blood);}';
+    document.head.appendChild(style);
+  }
+
+  function initPriceReveal() {
+    const cards = document.querySelectorAll('.coverage-card[data-price]');
+    if (cards.length === 0) return;
+    injectPriceRevealStyles();
+
+    cards.forEach((card) => {
+      const priceEl = card.querySelector('.cc-price');
+      const pkrValue = parseFloat(card.dataset.price);
+      if (!priceEl || isNaN(pkrValue)) return;
+
+      const pkrText = pkr(pkrValue);
+      const usdText = usd(pkrValue);
+      let holdTimer;
+
+      function toPkr() {
+        priceEl.innerHTML = pkrText + ' <span class="price-reveal-fx">\u21c4</span>';
+        priceEl.classList.remove('price-reveal-active');
+      }
+      function toUsd() {
+        priceEl.innerHTML = usdText + ' <span class="price-reveal-fx price-reveal-active">\u21c4</span>';
+        priceEl.classList.add('price-reveal-active');
+      }
+      toPkr();
+
+      card.addEventListener('pointerdown', () => {
+        holdTimer = setTimeout(toUsd, 160);
+      });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach((evt) => {
+        card.addEventListener(evt, () => {
+          clearTimeout(holdTimer);
+          toPkr();
+        });
+      });
+    });
+  }
 
   // Expose for page-specific Add to Cart buttons
   window.OwnItCart = { addToCart, getCart, cartTotal, cartCount, openCart, closeCart, money, pkr, usd, formatPrice, clearCart };

@@ -377,7 +377,7 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
           <a href="#reviews">4.8 · 204 reviews</a>
         </div>
         <div class="price-row">
-          <span class="price" id="priceDisplay">Rs. 1,500 <span class="usd-note">(~$5.40 USD)</span></span>
+          <span class="price" id="priceDisplay">Rs. 1,500</span>
           <span class="price-note">PKR · Free tracked shipping</span>
         </div>
         <p class="pdp-desc">A weathered warrior portrait engraved into a stone and rune border finish, precision-cut to the PS5's actual panel geometry. Matte laminate finish, air-release adhesive, zero-residue removal.</p>
@@ -622,7 +622,7 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
   function formatPrice(p){ return window.OwnItCart.pkr(p); }
   function refreshPrice(){
     const total = state.price * state.qty;
-    priceDisplay.innerHTML = window.OwnItCart.formatPrice(state.price);
+    priceDisplay.textContent = window.OwnItCart.pkr(state.price);
     btnPrice.textContent = formatPrice(total);
     stickyPrice.textContent = formatPrice(total);
   }
