@@ -407,7 +407,7 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
             <span id="qtyValue">1</span>
             <button id="qtyPlus" aria-label="Increase quantity">+</button>
           </div>
-          <button class="btn btn-primary" id="addToCartBtn">Add To Cart — <span id="btnPrice">Rs. 1,500</span></button>
+          <button class="btn btn-primary" id="addToCartBtn">Add To Cart</button>
         </div>
 
         <p class="meta-line">SKU: OWNIT-WPX-001 · In stock · Ships within 2 business days</p>
@@ -497,15 +497,15 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
         <div class="rel-media"><img src="images/product-hokage.jpg" width="280" height="350" alt="Hokage custom PS5 skin" loading="lazy"></div>
         <div class="rel-body"><h3>Hokage</h3><span class="price">Rs. 1,800</span></div>
       </a>
-      <a class="rel-card" href="index.html#collection">
+      <a class="rel-card" href="product-ragnarok.html">
         <div class="rel-media"><img src="images/product-ragnarok.jpg" width="280" height="350" alt="Ragnarok custom PS5 skin" loading="lazy"></div>
         <div class="rel-body"><h3>Ragnarok</h3><span class="price">Rs. 1,800</span></div>
       </a>
-      <a class="rel-card" href="index.html#collection">
-        <div class="rel-media"><img src="images/product-webslinger.jpg" width="280" height="350" alt="Webslinger custom PS5 skin" loading="lazy"></div>
-        <div class="rel-body"><h3>Webslinger</h3><span class="price">Rs. 1,800</span></div>
+      <a class="rel-card" href="product-ajrak.html">
+        <div class="rel-media"><img src="images/product-ajrak-full.jpg" width="280" height="350" alt="Ajrak custom PS5 skin" loading="lazy"></div>
+        <div class="rel-body"><h3>Ajrak</h3><span class="price">Rs. 1,800</span></div>
       </a>
-      <a class="rel-card" href="index.html#collection">
+      <a class="rel-card" href="product-stickerbomb.html">
         <div class="rel-media"><img src="images/product-stickerbomb.jpg" width="280" height="350" alt="Sticker Bomb custom PS5 skin" loading="lazy"></div>
         <div class="rel-body"><h3>Sticker Bomb</h3><span class="price">Rs. 1,700</span></div>
       </a>
@@ -613,7 +613,6 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
   const state = { model: 'PS5 Disc', coverage: 'Console Only', price: 1500, qty: 1, cart: 0 };
 
   const priceDisplay = document.getElementById('priceDisplay');
-  const btnPrice = document.getElementById('btnPrice');
   const stickyPrice = document.getElementById('stickyPrice');
   const mainImage = document.getElementById('mainImage');
   const coverageSelected = document.getElementById('coverageSelected');
@@ -623,7 +622,6 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
   function refreshPrice(){
     const total = state.price * state.qty;
     priceDisplay.textContent = window.OwnItCart.pkr(state.price);
-    btnPrice.textContent = formatPrice(total);
     stickyPrice.textContent = formatPrice(total);
   }
 

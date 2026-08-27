@@ -9,15 +9,17 @@
   const css = `
   .oa-launcher{
     position:fixed;bottom:24px;right:24px;z-index:180;
-    width:56px;height:56px;border-radius:50%;
-    background:var(--ink);color:var(--paper);
+    width:60px;height:60px;border-radius:50%;
+    background:var(--white);color:var(--paper);
     display:flex;align-items:center;justify-content:center;
     box-shadow:0 10px 24px rgba(0,0,0,.25);
     font-family:var(--display);font-size:22px;
     border:1.5px solid var(--ink);cursor:pointer;
     transition:transform .2s ease, background .2s ease, bottom .25s ease;
+    overflow:hidden;padding:0;
   }
-  .oa-launcher:hover{background:var(--blood);border-color:var(--blood);transform:translateY(-2px);}
+  .oa-launcher-img{width:100%;height:100%;object-fit:contain;padding:5px;}
+  .oa-launcher:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.3);}
   .oa-launcher .oa-dot{
     position:absolute;top:-4px;right:-4px;width:12px;height:12px;border-radius:50%;
     background:var(--blood);border:2px solid var(--paper);
@@ -47,9 +49,11 @@
     display:flex;justify-content:space-between;align-items:center;
     padding:16px 18px;border-bottom:1px solid var(--line);background:var(--white);
   }
-  .oa-head-title{display:flex;flex-direction:column;}
-  .oa-head-title h3{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.02em;line-height:1;}
-  .oa-head-title span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--blood);margin-top:4px;}
+  .oa-head-title{display:flex;align-items:center;gap:10px;}
+  .oa-head-title img{width:34px;height:34px;object-fit:contain;}
+  .oa-head-title-text{display:flex;flex-direction:column;}
+  .oa-head-title-text h3{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.02em;line-height:1;}
+  .oa-head-title-text span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--blood);margin-top:4px;}
   .oa-close{font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--graphite);background:none;border:none;cursor:pointer;}
   .oa-close:hover{color:var(--ink);}
 
@@ -94,7 +98,7 @@
     launcher.id = 'oaLauncher';
     launcher.className = 'oa-launcher';
     launcher.setAttribute('aria-label', 'Chat with OwnIt assistant');
-    launcher.innerHTML = 'AI<span class="oa-dot"></span>';
+    launcher.innerHTML = '<img src="images/logo-ownit.png" alt="OwnIt Assistant" class="oa-launcher-img"><span class="oa-dot"></span>';
     document.body.appendChild(launcher);
 
     const overlay = document.createElement('div');
@@ -109,7 +113,7 @@
     panel.setAttribute('aria-label', 'OwnIt AI assistant chat');
     panel.innerHTML =
       '<div class="oa-head">' +
-        '<div class="oa-head-title"><h3>OwnIt Assistant</h3><span>AI &middot; Roman Urdu</span></div>' +
+        '<div class="oa-head-title"><img src="images/logo-ownit.png" alt="OwnIt"><div class="oa-head-title-text"><h3>OwnIt Assistant</h3><span>AI &middot; Roman Urdu</span></div></div>' +
         '<button class="oa-close" id="oaClose">Close ✕</button>' +
       '</div>' +
       '<div class="oa-body" id="oaBody"></div>' +
