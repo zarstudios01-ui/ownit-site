@@ -46,7 +46,7 @@
     "https://www.ownit.com/images/macro-stickerbomb-angle.jpg",
     "https://www.ownit.com/images/macro-stickerbomb-material.jpg"
   ],
-  "description": "A weathered warrior portrait engraved into a stone and rune border finish, precision-cut for PS5 and PS5 Slim console panels.",
+  "description": "A colorful maximalist graffiti sticker collage, precision-cut for PS5 and PS5 Slim console panels.",
   "sku": "OWNIT-STB-001",
   "brand": {"@type":"Brand","name":"OwnIt"},
   "offers": {
@@ -380,7 +380,7 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
           <span class="price" id="priceDisplay">Rs. 1,400</span>
           <span class="price-note">PKR · Free tracked shipping</span>
         </div>
-        <p class="pdp-desc">A weathered warrior portrait engraved into a stone and rune border finish, precision-cut to the PS5's actual panel geometry. Matte laminate finish, air-release adhesive, zero-residue removal.</p>
+        <p class="pdp-desc">A colorful maximalist graffiti sticker collage, precision-cut to the PS5's actual panel geometry. Matte laminate finish, air-release adhesive, zero-residue removal.</p>
 
         <div class="option-group">
           <div class="label"><span>Console Model</span><span id="modelSelected">PS5 Disc</span></div>
@@ -461,27 +461,22 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
     </details>
   </section>
 
-  <!-- Cross-sell -->
-  <section class="crosssell" aria-label="Complete this look">
+  <!-- Add-on: matching controller -->
+  <section class="crosssell" aria-label="Add the matching controller">
     <div class="wrap">
       <div class="section-head">
-        <span class="eyebrow">Bundle &amp; save</span>
-        <h2>Complete This Look</h2>
-        <p>The Sticker Bomb set — matching console and controller skins.</p>
+        <span class="eyebrow">Complete the setup</span>
+        <h2>Add The Controller</h2>
+        <p>Already getting the console skin above? Add the matching controller skin separately for Rs. 300 — same total as choosing "Console + Controller" up top.</p>
       </div>
-      <div class="bundle-grid">
-        <div class="bundle-card included">
-          <div class="bundle-media"><img src="images/product-stickerbomb-studio.jpg" width="360" height="270" alt="Sticker Bomb PS5 console skin" loading="lazy"></div>
-          <div class="bundle-body"><h3>Sticker Bomb Console Skin</h3><span class="bp">Rs. 1,400</span></div>
-        </div>
+      <div class="bundle-grid" style="grid-template-columns:minmax(260px,360px);">
         <div class="bundle-card included">
           <div class="bundle-media"><img src="images/product-stickerbomb-controller.jpg" width="360" height="270" alt="Sticker Bomb DualSense controller skin" loading="lazy"></div>
-          <div class="bundle-body"><h3>Sticker Bomb Controller Skin</h3><span class="bp">Rs. 800</span></div>
+          <div class="bundle-body"><h3>Sticker Bomb Controller Skin</h3><span class="bp">Rs. 300</span></div>
         </div>
       </div>
       <div class="bundle-cta">
-        <span class="save">Bundle both and save Rs. 200</span>
-        <button class="btn btn-primary" id="bundleAddBtn">Add Bundle To Cart — Rs. 2,200</button>
+        <button class="btn btn-primary" id="bundleAddBtn">Add Controller Skin — Rs. 300</button>
       </div>
     </div>
   </section>
@@ -493,9 +488,9 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
       <h2>You Might Also Like</h2>
     </div>
     <div class="related-grid">
-      <a class="rel-card" href="index.html#collection">
-        <div class="rel-media"><img src="images/product-hokage.jpg" width="280" height="350" alt="Hokage custom PS5 skin" loading="lazy"></div>
-        <div class="rel-body"><h3>Hokage</h3><span class="price">Rs. 1,800</span></div>
+      <a class="rel-card" href="product-webslinger.html">
+        <div class="rel-media"><img src="images/product-webslinger.jpg" width="280" height="350" alt="Webslinger custom PS5 skin" loading="lazy"></div>
+        <div class="rel-body"><h3>Webslinger</h3><span class="price">Rs. 1,800</span></div>
       </a>
       <a class="rel-card" href="product-ragnarok.html">
         <div class="rel-media"><img src="images/product-ragnarok.jpg" width="280" height="350" alt="Ragnarok custom PS5 skin" loading="lazy"></div>
@@ -689,8 +684,7 @@ h1,h2,h3{font-family:var(--display);letter-spacing:.01em;line-height:.92;text-tr
   document.getElementById('addToCartBtn').addEventListener('click', addMainToCart);
   document.getElementById('stickyAddBtn').addEventListener('click', addMainToCart);
   document.getElementById('bundleAddBtn').addEventListener('click', () => {
-    window.OwnItCart.addToCart({ id:'stickerbomb-console', name:'Sticker Bomb Console Skin', variant:'Console Only', price:1400, image:'images/product-stickerbomb-studio.jpg', qty:1 });
-    window.OwnItCart.addToCart({ id:'stickerbomb-controller', name:'Sticker Bomb Controller Skin', variant:'Controller Only', price:800, image:'images/product-stickerbomb-controller.jpg', qty:1 });
+    window.OwnItCart.addToCart({ id:'stickerbomb-controller', name:'Sticker Bomb Controller Skin', variant:'Controller Only', price:300, image:'images/product-stickerbomb-controller.jpg', qty:1 });
   });
 
   // Sticky bar visibility
