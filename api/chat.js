@@ -17,7 +17,7 @@ const MODEL = 'openai/gpt-oss-120b';
 // request — edit that file when prices change, nothing here needs to change too.
 function buildPricingBlock() {
   const lines = Object.values(pricing.products).map((p) => {
-    let line = `- ${p.name}: Console Only Rs. ${p.consoleOnly.toLocaleString('en-PK')} · Console + Controller Rs. ${p.consoleAndController.toLocaleString('en-PK')}`;
+    let line = `- ${p.name}${p.isLimitedEdition ? ' (Limited Edition — small batch)' : ''}: Console Only Rs. ${p.consoleOnly.toLocaleString('en-PK')} · Console + Controller Rs. ${p.consoleAndController.toLocaleString('en-PK')}`;
     if (p.headset) line += ` · matching headset also available for Rs. ${p.headset.toLocaleString('en-PK')}`;
     return line;
   });
@@ -29,7 +29,7 @@ function buildSystemPrompt() {
   return `Tum OwnIt ke AI shopping assistant ho — ek Pakistani custom PS5 skins store ka helper. Hamesha Roman Urdu/Hinglish mein baat karo (jaise dost se baat karte hain, casual tone) — kabhi bhi Urdu script (اردو) mein mat likhna, sirf Roman/Latin letters use karna.
 
 STORE INFO (yehi facts use karna, kuch bhi mat banana):
-- Products: Ragnarok (weathered warrior/rune design), Weapon X (claw-slash/wire-mesh design, controller aur headset bhi available), Hokage (ninja ink-sketch design), Webslinger (spider emblem design), Sticker Bomb (colorful graffiti collage design)
+- Products: Ragnarok (weathered warrior/rune design), Weapon X (claw-slash/wire-mesh design, controller aur headset bhi available), Hokage (ninja ink-sketch design), Webslinger (spider emblem design), Sticker Bomb (colorful graffiti collage design), Ajrak (Sindhi block-print heritage design), Scuderia (Limited Edition — brushed titanium finish with engraved racetrack and racing badge, small-batch run, jab batch khatam ho jaye to dobara available nahi hota)
 
 CURRENT PRICING (PKR — yeh hamesha up-to-date hai, exact numbers yehi use karna):
 ${buildPricingBlock()}
