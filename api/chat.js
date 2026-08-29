@@ -6,7 +6,7 @@
 // deprecated in favor of openai/gpt-oss-20b / openai/gpt-oss-120b. Check
 // https://console.groq.com/docs/models before deploying — if Llama is retired,
 // change this one line.
-const MODEL = 'llama-3.3-70b-versatile';
+const MODEL = 'openai/gpt-oss-120b';
 
 const SYSTEM_PROMPT = `Tum OwnIt ke AI shopping assistant ho — ek Pakistani custom PS5 skins store ka helper. Hamesha Roman Urdu/Hinglish mein baat karo (jaise dost se baat karte hain, casual tone) — kabhi bhi Urdu script (اردو) mein mat likhna, sirf Roman/Latin letters use karna.
 
