@@ -1,21 +1,42 @@
 // /api/chat.js — Vercel serverless function.
 // Keeps GROQ_API_KEY server-side. Never call Groq directly from the browser.
 
+const pricing = require('../data/products.json');
+
 // NOTE: Groq's model catalog changes. This was set to the Llama models requested,
 // but some recent Groq docs show llama-3.3-70b-versatile / llama-3.1-8b-instant as
 // deprecated in favor of openai/gpt-oss-20b / openai/gpt-oss-120b. Check
 // https://console.groq.com/docs/models before deploying — if Llama is retired,
 // change this one line.
+// Groq retired llama-3.3-70b-versatile and llama-3.1-8b-instant on August 16, 2026.
+// openai/gpt-oss-120b is their recommended replacement for the 70B-class model.
+// Check https://console.groq.com/docs/models if this ever needs to change again.
 const MODEL = 'openai/gpt-oss-120b';
 
-const SYSTEM_PROMPT = `Tum OwnIt ke AI shopping assistant ho — ek Pakistani custom PS5 skins store ka helper. Hamesha Roman Urdu/Hinglish mein baat karo (jaise dost se baat karte hain, casual tone) — kabhi bhi Urdu script (اردو) mein mat likhna, sirf Roman/Latin letters use karna.
+// Builds the pricing section of the prompt fresh from data/products.json on every
+// request — edit that file when prices change, nothing here needs to change too.
+function buildPricingBlock() {
+  const lines = Object.values(pricing.products).map((p) => {
+    let line = `- ${p.name}: Console Only Rs. ${p.consoleOnly.toLocaleString('en-PK')} · Console + Controller Rs. ${p.consoleAndController.toLocaleString('en-PK')}`;
+    if (p.headset) line += ` · matching headset also available for Rs. ${p.headset.toLocaleString('en-PK')}`;
+    return line;
+  });
+  lines.push(`- Controller skin bought separately (add-on): Rs. ${pricing.controllerAddOnPrice.toLocaleString('en-PK')} (same total as choosing "Console + Controller" on that product)`);
+  return lines.join('\n');
+}
+
+function buildSystemPrompt() {
+  return `Tum OwnIt ke AI shopping assistant ho — ek Pakistani custom PS5 skins store ka helper. Hamesha Roman Urdu/Hinglish mein baat karo (jaise dost se baat karte hain, casual tone) — kabhi bhi Urdu script (اردو) mein mat likhna, sirf Roman/Latin letters use karna.
 
 STORE INFO (yehi facts use karna, kuch bhi mat banana):
 - Products: Ragnarok (weathered warrior/rune design), Weapon X (claw-slash/wire-mesh design, controller aur headset bhi available), Hokage (ninja ink-sketch design), Webslinger (spider emblem design), Sticker Bomb (colorful graffiti collage design)
-- Pricing: Console Only Rs. 1,500 · Console + Controller Rs. 1,800 (Sticker Bomb thora kam, Rs. 1,700 bundle)
+
+CURRENT PRICING (PKR — yeh hamesha up-to-date hai, exact numbers yehi use karna):
+${buildPricingBlock()}
+
 - Sab PS5 Disc, PS5 Digital aur PS5 Slim ke liye available hain — customer ko apna model batana hota hai order karte waqt
-- Shipping: standard free (2-6 din), express Rs. 500 (1-2 din)
-- Returns: premade skins pe 30-din return, custom/apna-design wale orders final sale hain (sirf damaged/misprint pe replace hota hai)
+- Shipping: ${pricing.shipping.standard.toLowerCase()}, express Rs. ${pricing.shipping.express.toLocaleString('en-PK')}
+- Returns: ${pricing.returnPolicy}
 - Apna khud ka design bhi upload kar sakte hain "Create Your Own" page se
 - Yeh site abhi ek portfolio/demo project hai — checkout se koi real payment process nahi hota
 
@@ -26,6 +47,7 @@ RULES:
 - Kabhi fake discount, fake stock-urgency, ya jhooti guarantee mat do
 - Jahan relevant ho wahan customer ko batao kaunsa button/page dekhna hai (jaise "Collection mein dekho" ya "Create Your Own try karo")
 - Agar koi unrelated / harmful sawal poochay to politely mana kardo aur topic ko PS5 skins pe wapas le aao`;
+}
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -59,7 +81,7 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         model: MODEL,
-        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...trimmed],
+        messages: [{ role: 'system', content: buildSystemPrompt() }, ...trimmed],
         temperature: 0.7,
         max_tokens: 400,
       }),
