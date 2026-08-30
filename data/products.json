@@ -44,6 +44,15 @@
       "controllerOnly": 500,
       "rating": 4.9,
       "reviewCount": 176
+    },
+    "scuderia": {
+      "name": "Scuderia",
+      "isLimitedEdition": true,
+      "consoleOnly": 2200,
+      "consoleAndController": 2700,
+      "controllerOnly": 500,
+      "rating": 5.0,
+      "reviewCount": 38
     }
   },
   "shipping": {

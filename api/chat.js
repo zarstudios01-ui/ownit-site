@@ -1,7 +1,36 @@
 // /api/chat.js — Vercel serverless function.
 // Keeps GROQ_API_KEY server-side. Never call Groq directly from the browser.
 
-const pricing = require('../data/products.json');
+const fs = require('fs');
+const path = require('path');
+
+// Read pricing from data/products.json at request time. Wrapped defensively —
+// if the file is ever missing or the bundler doesn't include it, the assistant
+// falls back to this hardcoded snapshot instead of crashing outright.
+function loadPricing() {
+  try {
+    const raw = fs.readFileSync(path.join(process.cwd(), 'data', 'products.json'), 'utf8');
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error('Failed to load data/products.json, using fallback pricing', err);
+    return {
+      currency: 'PKR',
+      controllerAddOnPrice: 500,
+      products: {
+        weaponx: { name: 'Weapon X', consoleOnly: 1500, consoleAndController: 2000, controllerOnly: 500, headset: 2100 },
+        ragnarok: { name: 'Ragnarok', consoleOnly: 1500, consoleAndController: 2000, controllerOnly: 500 },
+        stickerbomb: { name: 'Sticker Bomb', consoleOnly: 1400, consoleAndController: 1900, controllerOnly: 500 },
+        ajrak: { name: 'Ajrak', consoleOnly: 1500, consoleAndController: 2000, controllerOnly: 500 },
+        webslinger: { name: 'Webslinger', consoleOnly: 1500, consoleAndController: 2000, controllerOnly: 500 },
+        scuderia: { name: 'Scuderia', isLimitedEdition: true, consoleOnly: 2200, consoleAndController: 2700, controllerOnly: 500 }
+      },
+      shipping: { standard: 'Free, 2-6 business days', express: 500 },
+      returnPolicy: '30-day returns on premade skins in original condition; custom/uploaded designs are final sale unless damaged or misprinted.'
+    };
+  }
+}
+
+const pricing = loadPricing();
 
 // NOTE: Groq's model catalog changes. This was set to the Llama models requested,
 // but some recent Groq docs show llama-3.3-70b-versatile / llama-3.1-8b-instant as
@@ -52,7 +81,7 @@ AGAR CUSTOMER PRICE PE OBJECTION KARE ("mehnga hai", "budget kam hai", "itna exp
 - Sabse pehli galti: price ko defend/justify karna ("premium hai isliye mehnga hai" wagera). Yeh mat karo — customer ko lagta hai tum unki baat sun hi nahi rahe.
 - Sahi tareeka: acknowledge karo, phir unka budget puchho, phir us budget mein jo fit ho woh suggest karo. Maqsad hai conversation zinda rakhna, customer ko door nahi bhagana.
 - Tone ek dost/real salesperson jaisa rakho, corporate defensive chatbot jaisa nahi.
-- Example flow (ismein se exact words copy mat karo, apne tareeke se, context ke hisab se likho): customer bole "mehnga hai" to kuch aisा jawab do jo (a) unki baat ko fair maane, (b) unse unka budget pucchay, (c) us budget mein koi cheaper option ya "Console Only" variant offer kare — na ke seedha "Collection dekho" bol ke baat khatam kar do.`;
+- Example flow (ismein se exact words copy mat karo, apne tareeke se, context ke hisab se likho): customer bole "mehnga hai" to kuch aisa jawab do jo (a) unki baat ko fair maane, (b) unse unka budget pucchay, (c) us budget mein koi cheaper option ya "Console Only" variant offer kare — na ke seedha "Collection dekho" bol ke baat khatam kar do.`;
 }
 
 module.exports = async function handler(req, res) {
