@@ -1,0 +1,6 @@
+{
+  "name": "ownit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OwnIt — custom PS5 skins storefront with a Vercel serverless AI assistant."
+}

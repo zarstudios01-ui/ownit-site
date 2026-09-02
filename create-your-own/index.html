@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Your Own — Coming Soon | OwnIt</title>
+<meta name="description" content="Upload your own artwork and design a custom PS5 skin — the OwnIt design tool is in development. Browse the current collection while you wait.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#F2F1EC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="/" class="logo">Own<span>It</span></a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="/#collection">Shop Skins</a>
+      <a href="/create-your-own/">Create Your Own</a>
+      <a href="/#setup">Accessories</a>
+      <a href="/#ugc">Gallery</a>
+      <a href="/#why">About Us</a>
+      <a href="/#footer">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Search">Search</button>
+      <button class="icon-btn" aria-label="Account">Account</button>
+      <button class="icon-btn" aria-label="Cart, 0 items" data-cart-open>Cart<span class="cart-count">0</span></button>
+    </div>
+  </div>
+</header>
+
+<div class="cart-overlay" id="cartOverlay" data-cart-close></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+  <div class="cart-drawer-head">
+    <h2>Cart</h2>
+    <button type="button" data-cart-close aria-label="Close cart">Close ✕</button>
+  </div>
+  <div class="cart-drawer-body" id="cartDrawerBody">
+    <p class="cart-empty">Your cart is empty. <a href="/#collection">Shop the collection →</a></p>
+  </div>
+  <div class="cart-drawer-footer" id="cartDrawerFooter" style="display:none;">
+    <div class="cart-subtotal-row"><span>Subtotal</span><span id="cartSubtotal">Rs. 0</span></div>
+    <p class="cart-note">Shipping and taxes calculated at checkout.</p>
+    <a href="/checkout/" class="btn btn-primary">Checkout</a>
+  </div>
+</aside>
+
+<nav class="breadcrumb wrap" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/">Home</a></li>
+    <li>Create Your Own</li>
+  </ol>
+</nav>
+
+<main>
+  <section class="cs-hero wrap">
+    <span class="eyebrow">In development</span>
+    <h1>Create Your Own<br><span class="accent">Coming Soon.</span></h1>
+    <p class="cs-lead">We're building a tool where you upload your own artwork, position it on a real console template, and preview it before it's ever printed. It isn't live yet — here's what it'll do once it is.</p>
+
+    <div class="cs-steps">
+      <div class="cs-step"><span class="num">01</span><h3>Upload</h3><p>Your artwork, any image file.</p></div>
+      <div class="cs-step"><span class="num">02</span><h3>Design</h3><p>Position and scale it on the console template.</p></div>
+      <div class="cs-step"><span class="num">03</span><h3>Preview</h3><p>See your exact PS5 before ordering.</p></div>
+      <div class="cs-step"><span class="num">04</span><h3>OwnIt</h3><p>We print it and ship it to you.</p></div>
+    </div>
+
+    <div class="cs-cta">
+      <a href="/#collection" class="btn btn-primary">Browse The Collection Instead →</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo">Own<span style="color:var(--blood);">It</span></a>
+        <p style="color:var(--graphite);font-size:13.5px;max-width:260px;margin-top:14px;">Premium custom PS5 skins, precision-cut and made to change with you.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="/#collection">PS5 Skins</a></li>
+          <li><a href="/#collection">PS5 Slim Skins</a></li>
+          <li><a href="/#setup">Controller Skins</a></li>
+          <li><a href="/#setup">Accessories</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Custom</h4>
+        <ul>
+          <li><a href="/create-your-own/">Create Your Own</a></li>
+          <li><a href="/#customizer">How It Works</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="/#footer">Contact</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/#why">About</a></li>
+          <li><a href="/#ugc">Gallery</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 OwnIt. All rights reserved.</p>
+      <p><a href="/#footer">Privacy</a> · <a href="/#footer">Terms</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/cart.js"></script>
+<script src="/js/assistant.js"></script>
+</body>
+</html>
