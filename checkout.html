@@ -266,7 +266,7 @@ h1,h2{font-family:var(--display);letter-spacing:.01em;line-height:.95;text-trans
     setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1800);
   });
 
-  const ORDER_API = 'https://ownitsitedashboard.infy.click/create-order.php?i=1';
+  const ORDER_API = '/api/create-order';
 document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = e.submitter;
