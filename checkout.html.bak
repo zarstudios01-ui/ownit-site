@@ -266,42 +266,17 @@ h1,h2{font-family:var(--display);letter-spacing:.01em;line-height:.95;text-trans
     setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 1800);
   });
 
-  const ORDER_API = 'https://ownitsitedashboard.infy.click/create-order.php';
-document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = e.submitter;
-  const label = btn ? btn.textContent : '';
-  if (btn) { btn.disabled = true; btn.textContent = 'Placing order...'; }
-  const cart = window.OwnItCart.getCart();
-  const subtotal = window.OwnItCart.cartTotal();
-  const val = (id) => document.getElementById(id).value.trim();
-  const payload = {
-    name: val('fname') + ' ' + val('lname'),
-    email: val('email'),
-    phone: val('phone'),
-    shipping_address: [val('addr'), val('city'), val('zip'), val('country')].join(', '),
-    items: cart.map(i => ({ id: i.id, name: i.name, variant: i.variant || '', price: i.price, qty: i.qty })),
-    subtotal: subtotal,
-    shipping_cost: shippingCost,
-    total: subtotal + shippingCost
-  };
-  try {
-    const res = await fetch(ORDER_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    const data = await res.json();
-    if (!res.ok || !data.success) throw new Error(data.error || 'Order failed');
-    document.getElementById('orderIdLine').textContent = 'Order #OWNIT-' + String(data.order_id).padStart(6, '0');
+  document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const orderId = 'OWNIT-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('orderIdLine').textContent = 'Order #' + orderId;
     document.getElementById('coContent').classList.add('hidden');
     document.getElementById('confirmPanel').classList.add('show');
     window.OwnItCart.clearCart();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (err) {
-    console.error(err);
-    alert('Could not place your order: ' + err.message);
-    if (btn) { btn.disabled = false; btn.textContent = label; }
-  }
-});
+  });
 
-renderSummary();
+  renderSummary();
 </script>
 
 </body>
